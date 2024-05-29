@@ -1,4 +1,4 @@
-name = "spot-market-oracle"
+name = "fx-spot-market-oracle"
 version = "<%= package.version %>"
 description = "Spot market quoting oracle"
 
