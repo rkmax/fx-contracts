@@ -1,4 +1,4 @@
-name = "op-gas-price-oracle"
+name = "fx-op-gas-price-oracle"
 version = "<%= package.version %>"
 description = "Optimism Gas Price Oracle Node"
 

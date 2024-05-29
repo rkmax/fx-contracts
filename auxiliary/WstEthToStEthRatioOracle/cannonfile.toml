@@ -1,4 +1,4 @@
-name = "wsteth-to-steth-ratio-oracle"
+name = "fx-wsteth-to-steth-ratio-oracle"
 version = "<%= package.version %>"
 description = "<%= package.description %>"
 
