@@ -6,15 +6,7 @@ description = "Spot market implementation"
 description = "spot market owner"
 defaultValue = "0x9f76043B23125024Ce5f0Fb4AE707482107dd2a8"
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 [setting.polynomialCore]
-=======
-[setting.synthetixPackage]
->>>>>>> 269f30d5 (rename cannon packages)
-=======
-[setting.polynomialCore]
->>>>>>> 84607b5f (🥻 Change token names)
 defaultValue = "polynomial-core"
 
 [setting.polynomialPreset]
