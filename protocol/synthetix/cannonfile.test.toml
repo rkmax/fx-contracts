@@ -4,7 +4,7 @@ include = ["cannonfile.toml"]
 
 # use the testable oracle manager
 [setting.oracle_manager_source]
-defaultValue = "oracle-manager:<%= package.version %>-testable"
+defaultValue = "fx-oracle-manager:<%= package.version %>-testable"
 depends = []
 
 # Test Modules
