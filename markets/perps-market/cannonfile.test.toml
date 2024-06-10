@@ -1,4 +1,4 @@
-name = "synthetix-perps-market"
+name = "fx-perps-market"
 version = "<%= package.version %>-testable"
 description = "Perps market implementation"
 
@@ -14,7 +14,7 @@ defaultValue = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
 defaultValue = ""
 
 [setting.synthetixPackage]
-defaultValue = "synthetix:<%= package.version %>-testable"
+defaultValue = "polynomial-core:<%= package.version %>-testable"
 depends = []
 
 [setting.spotMarketPackage]
