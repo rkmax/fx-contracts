@@ -152,10 +152,10 @@ target = ["CoreProxy"]
 fromCall.func = "owner"
 func = "initOrUpgradeNft"
 args = [
-    "<%= formatBytes32String('accountNft') %>",
-    "<%= settings.account_token_name %>",
-    "<%= settings.account_token_symbol %>",
-    "https://synthetix.io",
+    "0x6163636f756e744e667400000000000000000000000000000000000000000000",
+    "Polynomial Account",
+    "fxACCT",
+    "https://polynomial.fi",
     "<%= contracts.AccountRouter.address %>",
 ]
 depends = ["invoke.upgrade_core_proxy", "router.AccountRouter"]
