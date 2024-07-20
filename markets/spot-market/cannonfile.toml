@@ -4,20 +4,20 @@ description = "Spot market implementation"
 
 [setting.owner]
 description = "spot market owner"
-defaultValue = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
+defaultValue = "0x9f76043B23125024Ce5f0Fb4AE707482107dd2a8"
 
-[setting.synthetixPackage]
+[setting.polynomialCore]
 defaultValue = "polynomial-core"
 
-[setting.synthetixPreset]
+[setting.polynomialPreset]
 defaultValue = "main"
 
 [setting.salt]
-defaultValue = "snax"
+defaultValue = "polynomial"
 
 [import.synthetix]
-source = "<%= settings.synthetixPackage %>"
-preset = "<%= settings.synthetixPreset %>"
+source = "<%= settings.polynomialCore %>"
+preset = "<%= settings.polynomialCorePreset %>"
 
 [contract.SpotMarketFactoryModule]
 artifact = "SpotMarketFactoryModule"
