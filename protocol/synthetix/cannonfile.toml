@@ -1,6 +1,6 @@
 name = "polynomial-core"
 version = "<%= package.version %>"
-description = "Core synthetix system"
+description = "Core Polynomial system"
 
 # `salt` here only affects proxy contract
 [setting.salt]
@@ -13,7 +13,7 @@ defaultValue = "main"
 
 [setting.owner]
 description = "Admin user for the system"
-defaultValue = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
+defaultValue = "0x9f76043B23125024Ce5f0Fb4AE707482107dd2a8"
 
 [setting.oracle_manager_source]
 defaultValue = "fx-oracle-manager"
@@ -170,9 +170,9 @@ target = ["CoreProxy"]
 fromCall.func = "owner"
 func = "initOrUpgradeToken"
 args = [
-    "<%= formatBytes32String('USDToken') %>",
-    "<%= settings.usd_token_name %>",
-    "<%= settings.usd_token_symbol %>",
+    "0x555344546f6b656e000000000000000000000000000000000000000000000000",
+    "Polynomial USD Token",
+    "fxUSD",
     18,
     "<%= contracts.USDRouter.address %>",
 ]

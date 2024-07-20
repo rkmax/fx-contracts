@@ -86,7 +86,6 @@ contract ERC721 is IERC721, IERC721Metadata {
     /**
      * @inheritdoc IERC721
      */
-
     function approve(address to, uint256 tokenId) public virtual override {
         ERC721Storage.Data storage store = ERC721Storage.load();
         address holder = store.ownerOf[tokenId];
@@ -119,7 +118,6 @@ contract ERC721 is IERC721, IERC721Metadata {
     /**
      * @inheritdoc IERC721
      */
-
     function setApprovalForAll(address operator, bool approved) public virtual override {
         if (ERC2771Context._msgSender() == operator) {
             revert CannotSelfApprove(operator);
@@ -143,7 +141,6 @@ contract ERC721 is IERC721, IERC721Metadata {
     /**
      * @inheritdoc IERC721
      */
-
     function transferFrom(address from, address to, uint256 tokenId) public virtual override {
         if (!_isApprovedOrOwner(ERC2771Context._msgSender(), tokenId)) {
             revert AccessError.Unauthorized(ERC2771Context._msgSender());
@@ -155,7 +152,6 @@ contract ERC721 is IERC721, IERC721Metadata {
     /**
      * @inheritdoc IERC721
      */
-
     function safeTransferFrom(address from, address to, uint256 tokenId) public virtual override {
         safeTransferFrom(from, to, tokenId, "");
     }
@@ -163,7 +159,6 @@ contract ERC721 is IERC721, IERC721Metadata {
     /**
      * @inheritdoc IERC721
      */
-
     function safeTransferFrom(
         address from,
         address to,
