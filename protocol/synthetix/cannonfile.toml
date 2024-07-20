@@ -1,6 +1,6 @@
 name = "polynomial-core"
 version = "<%= package.version %>"
-description = "Core synthetix system"
+description = "Core Polynomial system"
 
 # `salt` here only affects proxy contract
 [setting.salt]
@@ -13,7 +13,7 @@ defaultValue = "main"
 
 [setting.owner]
 description = "Admin user for the system"
-defaultValue = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
+defaultValue = "0x9f76043B23125024Ce5f0Fb4AE707482107dd2a8"
 
 [setting.oracle_manager_source]
 defaultValue = "fx-oracle-manager"
@@ -141,9 +141,9 @@ fromCall.func = "owner"
 func = "initOrUpgradeNft"
 args = [
     "0x6163636f756e744e667400000000000000000000000000000000000000000000",
-    "Synthetix Account",
-    "SACCT",
-    "https://synthetix.io",
+    "Polynomial Account",
+    "fxACCT",
+    "https://polynomial.fi",
     "<%= contracts.AccountRouter.address %>",
 ]
 depends = ["invoke.upgrade_core_proxy", "router.AccountRouter"]
@@ -158,8 +158,8 @@ fromCall.func = "owner"
 func = "initOrUpgradeToken"
 args = [
     "0x555344546f6b656e000000000000000000000000000000000000000000000000",
-    "Synthetic USD Token v3",
-    "snxUSD",
+    "Polynomial USD Token",
+    "fxUSD",
     18,
     "<%= contracts.USDRouter.address %>",
 ]

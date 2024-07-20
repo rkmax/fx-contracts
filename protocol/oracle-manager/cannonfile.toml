@@ -1,6 +1,6 @@
 name = "fx-oracle-manager"
 version = "<%= package.version %>"
-description = "Core synthetix oracle manager"
+description = "Core polynomial oracle manager"
 
 # `salt` here only affects proxy contract
 [setting.salt]
@@ -9,7 +9,7 @@ defaultValue = "oracle-manager-official"
 
 [setting.owner]
 description = "Admin user for the system"
-defaultValue = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
+defaultValue = "0x9f76043B23125024Ce5f0Fb4AE707482107dd2a8"
 
 [contract.NodeModule]
 artifact = "contracts/modules/NodeModule.sol:NodeModule"
