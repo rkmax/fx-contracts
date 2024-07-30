@@ -53,3 +53,8 @@ If you intend to develop in this repository, please read the following items.
 ### Console logs in contracts
 
 In the contracts, use `import "hardhat/console.sol";`, then run `DEBUG=cannon:cli:rpc yarn test`.
+
+## Disclaimer
+
+The Liquidity Layer of Polynomial Chain is built upon the Synthetix v3 codebase, which has undergone thorough auditing. The audit report for Synthetix v3 can be accessed [here](https://docs.synthetix.io/v/v3/for-developers/smart-contract-audits).
+Unlike some systems, the Liquidity Layer does not issue its own stablecoin. Instead, it maintains risk parameters closely aligned with those of the base deployment that powered Polynomial Trade. This approach is deliberately chosen to ensure that both markets share a similar attack surface, minimizing potential vulnerabilities.
