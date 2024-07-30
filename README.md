@@ -1,17 +1,8 @@
-# Synthetix v3
-
-[![codecov](https://codecov.io/gh/Synthetixio/synthetix-v3/branch/main/graph/badge.svg?token=B9BK0U5KAT)](https://codecov.io/gh/Synthetixio/synthetix-v3)
-
-| Package                     | Coverage                                                                                                                                                                      |
-| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| @synthetixio/core-utils     | [![codecov](https://codecov.io/gh/Synthetixio/synthetix-v3/branch/main/graph/badge.svg?token=B9BK0U5KAT&flag=core-utils)](https://codecov.io/gh/Synthetixio/synthetix-v3)     |
-| @synthetixio/core-contracts | [![codecov](https://codecov.io/gh/Synthetixio/synthetix-v3/branch/main/graph/badge.svg?token=B9BK0U5KAT&flag=core-contracts)](https://codecov.io/gh/Synthetixio/synthetix-v3) |
-| @synthetixio/core-modules   | [![codecov](https://codecov.io/gh/Synthetixio/synthetix-v3/branch/main/graph/badge.svg?token=B9BK0U5KAT&flag=core-modules)](https://codecov.io/gh/Synthetixio/synthetix-v3)   |
-| @synthetixio/main           | [![codecov](https://codecov.io/gh/Synthetixio/synthetix-v3/branch/main/graph/badge.svg?token=B9BK0U5KAT&flag=synthetix)](https://codecov.io/gh/Synthetixio/synthetix-v3)      |
+# Polynomial Protocol
 
 ## Documentation
 
-Please refer to the [Official Documentation](https://docs.synthetix.io/) for high level concepts of the Synthetix v3 protocol, as well as auto generated docs from natspec.
+Please refer to the [Official Documentation](https://polynomial-protocol.gitbook.io/polynomial-chain) for high level concepts of the protocol.
 
 ## Package structure
 
@@ -19,13 +10,13 @@ This is a monorepo with the following folder structure and packages:
 
 ```
 .
-├── markets                      // Standalone projects that extend the core Synthetix protocol with markets.
-│   ├── legacy-market            // Market that connects Synthetix's v2 and v3 versions.
+├── markets                      // Standalone projects that extend the core protocol with markets.
+│   ├── legacy-market            // Legacy Market.
 │   └── perps-market             // Market extension for perps.
 │   └── spot-market              // Market extension for spot synths.
 │   └── bfp-market               // Market extension for eth l1 perp.
 │
-├── protocol                     // Core Synthetix protocol projects.
+├── protocol                     // Core protocol projects.
 │   ├── governance               // Governance contracts for on chain voting.
 │   ├── oracle-manager           // Composable oracle and price provider for the core protocol.
 │   └── synthetix                // Core protocol (to be extended by markets).
@@ -62,49 +53,3 @@ If you intend to develop in this repository, please read the following items.
 ### Console logs in contracts
 
 In the contracts, use `import "hardhat/console.sol";`, then run `DEBUG=cannon:cli:rpc yarn test`.
-
-## Deployment Guide
-
-Deployment of the protocol is managed in the [synthetix-deployments repository](https://github.com/synthetixio/synthetix-deployments).
-
-To prepare for system upgrades, this repository is used to release new versions of the [protocol](/protocol) and [markets](/markets).
-
-### Preparing a Release
-
-#### Setup Cannon
-
-- Run `yarn upgrade-interactive` and make sure that `@usecannon/cli` and `hardhat-cannon` are updated to the latest versions.
-- After installing for the first time, run `yarn cannon:setup` to configure a reliable IPFS URL for publishing packages and any other preferred settings.
-
-#### Setup npm
-
-- Unless `npm whoami` returns an npm account with publishing permissions for the `@synthetixio` organization, confirm an `@synthetixio` npm publishing key is set as `$NPM_TOKEN` in the `.env` file or prepend `NPM_TOKEN=_` to the command used for publishing below.
-
-#### Publish Dev Release
-
-- Confirm you are on the development branch you’d like to release and that there are no git changes `git diff --exit-code .`
-- Publish the release with `yarn publish:dev` for the pre-release (no git tag, version looks like `1.2.3-<GIT_SHA>.0`)
-- If you aren't using an EIP-1193 compatible wallet, prepend `CANNON_PRIVATE_KEY=<PRIVATE_KEY>` to the following command.
-- In the directory for each package you’d like to publish to cannon, run `yarn deploy`
-- After successful publish, there should be no diff in git. But if there is a diff - make sure you reset any changes, fix publishing issues and re-publish again. Double-check all the package.json files, revert dependencies' version changes back to `"workspaces:*"`.
-
-#### Publish Official Release
-
-**Each step is necessary, do not skip any steps.**
-
-- Verify what has changed since the last release
-
-  ```sh
-  yarn changed
-  ```
-
-- Confirm you are on the `main` branch and that there are no git changes `git diff --exit-code .` and you have write access to `main` branch
-  ```sh
-  git fetch --all
-  git checkout main
-  git pull
-  git diff --exit-code .
-  ```
-- Publish the release with `yarn publish:release`. (After successful publish, there should be no diff in git.)
-- If you aren't using an EIP-1193 compatible wallet, prepend `CANNON_PRIVATE_KEY=<PRIVATE_KEY>` to the following command.
-- In the directory for each package you’d like to publish to cannon, run `yarn deploy`
