@@ -14,7 +14,7 @@
     "clean": "hardhat clean && rm -rf contracts/generated",
     "build": "yarn build:contracts",
     "storage:verify": " hardhat storage:verify",
-    "build:contracts": "hardhat compile --force && yarn storage:dump && CANNON_REGISTRY_PRIORITY=local hardhat cannon:build",
+    "build:contracts": "hardhat compile --force && yarn storage:dump",
     "storage:dump": "hardhat storage:dump --output storage.new.dump.json",
     "generate-testable": "rm -rf contracts/generated && hardhat generate-testable",
     "build-testable": "hardhat compile",
