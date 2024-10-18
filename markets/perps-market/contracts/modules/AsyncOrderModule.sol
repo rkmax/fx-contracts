@@ -8,6 +8,7 @@ import {AccountRBAC} from "@synthetixio/main/contracts/storage/AccountRBAC.sol";
 import {IAsyncOrderModule} from "../interfaces/IAsyncOrderModule.sol";
 import {PerpsMarket} from "../storage/PerpsMarket.sol";
 import {PerpsAccount} from "../storage/PerpsAccount.sol";
+import {FeeTier} from "../storage/FeeTier.sol";
 import {AsyncOrder} from "../storage/AsyncOrder.sol";
 import {Position} from "../storage/Position.sol";
 import {PerpsPrice} from "../storage/PerpsPrice.sol";
@@ -101,10 +102,12 @@ contract AsyncOrderModule is IAsyncOrderModule {
      * @inheritdoc IAsyncOrderModule
      */
     function computeOrderFees(
+        uint128 accountId,
         uint128 marketId,
         int128 sizeDelta
     ) external view override returns (uint256 orderFees, uint256 fillPrice) {
         (orderFees, fillPrice) = _computeOrderFees(
+            accountId,
             marketId,
             sizeDelta,
             PerpsPrice.getCurrentPrice(marketId, PerpsPrice.Tolerance.DEFAULT)
@@ -115,11 +118,12 @@ contract AsyncOrderModule is IAsyncOrderModule {
      * @inheritdoc IAsyncOrderModule
      */
     function computeOrderFeesWithPrice(
+        uint128 accountId,
         uint128 marketId,
         int128 sizeDelta,
         uint256 price
     ) external view override returns (uint256 orderFees, uint256 fillPrice) {
-        (orderFees, fillPrice) = _computeOrderFees(marketId, sizeDelta, price);
+        (orderFees, fillPrice) = _computeOrderFees(accountId, marketId, sizeDelta, price);
     }
 
     /**
@@ -173,7 +177,12 @@ contract AsyncOrderModule is IAsyncOrderModule {
         (uint256 currentInitialMargin, , ) = account.getAccountRequiredMargins(
             PerpsPrice.Tolerance.DEFAULT
         );
-        (uint256 orderFees, uint256 fillPrice) = _computeOrderFees(marketId, sizeDelta, orderPrice);
+        (uint256 orderFees, uint256 fillPrice) = _computeOrderFees(
+            accountId,
+            marketId,
+            sizeDelta,
+            orderPrice
+        );
 
         return
             AsyncOrder.getRequiredMarginWithNewPosition(
@@ -188,6 +197,7 @@ contract AsyncOrderModule is IAsyncOrderModule {
     }
 
     function _computeOrderFees(
+        uint128 accountId,
         uint128 marketId,
         int128 sizeDelta,
         uint256 orderPrice
@@ -196,6 +206,10 @@ contract AsyncOrderModule is IAsyncOrderModule {
         PerpsMarketConfiguration.Data storage marketConfig = PerpsMarketConfiguration.load(
             marketId
         );
+
+        PerpsAccount.Data storage account = PerpsAccount.load(accountId);
+        FeeTier.Data storage feeTier = FeeTier.load(account.feeTierId);
+
         fillPrice = AsyncOrder.calculateFillPrice(
             skew,
             marketConfig.skewScale,
@@ -207,7 +221,7 @@ contract AsyncOrderModule is IAsyncOrderModule {
             sizeDelta,
             fillPrice,
             skew,
-            marketConfig.orderFees
+            FeeTier.getFees(feeTier, marketConfig.orderFees)
         );
     }
 }

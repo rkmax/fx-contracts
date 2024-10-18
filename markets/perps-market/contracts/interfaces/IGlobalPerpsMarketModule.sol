@@ -65,6 +65,12 @@ interface IGlobalPerpsMarketModule {
     event KeeperCostNodeIdUpdated(bytes32 keeperCostNodeId);
 
     /**
+     * @notice Gets fired when the fee tier EOA is updated.
+     * @param endorsedFeeTierUpdater the address of the fee tier EOA
+     */
+    event EndorsedFeeTierUpdaterSet(address endorsedFeeTierUpdater);
+
+    /**
      * @notice Thrown when the fee collector does not implement the IFeeCollector interface
      */
     error InvalidFeeCollectorInterface(address invalidFeeCollector);
@@ -78,18 +84,14 @@ interface IGlobalPerpsMarketModule {
      * @notice Thrown when gradient breakpoint is lower than low gradient or higher than high gradient
      */
     error InvalidInterestRateParameters(
-        uint128 lowUtilizationInterestRateGradient,
-        uint128 highUtilizationInterestRateGradient
+        uint128 lowUtilizationInterestRateGradient, uint128 highUtilizationInterestRateGradient
     );
 
     /**
      * @notice Gets the list of supported collaterals.
      * @return supportedCollaterals list of supported collateral ids. By supported collateral we mean a collateral which max is greater than zero
      */
-    function getSupportedCollaterals()
-        external
-        view
-        returns (uint256[] memory supportedCollaterals);
+    function getSupportedCollaterals() external view returns (uint256[] memory supportedCollaterals);
 
     /**
      * @notice Sets the keeper reward guard (min and max).
@@ -133,9 +135,7 @@ interface IGlobalPerpsMarketModule {
      * @param collateralId the id of the collateral (0 for snxUSD)
      * @return collateralValue value of all collateral for collateral id
      */
-    function globalCollateralValue(
-        uint128 collateralId
-    ) external view returns (uint256 collateralValue);
+    function globalCollateralValue(uint128 collateralId) external view returns (uint256 collateralValue);
 
     /**
      * @notice Sets the fee collector contract.
@@ -155,19 +155,14 @@ interface IGlobalPerpsMarketModule {
      * @param maxPositionsPerAccount The max number of concurrent Positions per Account
      * @param maxCollateralsPerAccount The max number of concurrent Collaterals per Account
      */
-    function setPerAccountCaps(
-        uint128 maxPositionsPerAccount,
-        uint128 maxCollateralsPerAccount
-    ) external;
+    function setPerAccountCaps(uint128 maxPositionsPerAccount, uint128 maxCollateralsPerAccount) external;
 
     /**
      * @notice get the max number of Positions and Collaterals per Account
      * @param maxPositionsPerAccount The max number of concurrent Positions per Account
      * @param maxCollateralsPerAccount The max number of concurrent Collaterals per Account
      */
-    function getPerAccountCaps()
-        external
-        returns (uint128 maxPositionsPerAccount, uint128 maxCollateralsPerAccount);
+    function getPerAccountCaps() external returns (uint128 maxPositionsPerAccount, uint128 maxCollateralsPerAccount);
 
     /**
      * @notice Update the referral share percentage for a referrer
@@ -243,4 +238,10 @@ interface IGlobalPerpsMarketModule {
      * @param minDelegationTime Minimum delegation time in seconds
      */
     function setMinDelegationTime(uint128 marketId, uint32 minDelegationTime) external;
+
+    /**
+     * @notice Update the fee tier EOA only called by the owner
+     * @param endorsedFeeTierUpdater the address of the fee tier EOA
+     */
+    function setEndorsedFeeTierUpdater(address endorsedFeeTierUpdater) external;
 }
