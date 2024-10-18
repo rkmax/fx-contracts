@@ -20,13 +20,18 @@ import {PerpsPrice} from "../storage/PerpsPrice.sol";
 import {MathUtil} from "../utils/MathUtil.sol";
 import {Flags} from "../utils/Flags.sol";
 import {SafeCastU256, SafeCastI256} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
+import {OwnableStorage} from "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
+import {GlobalPerpsMarketConfiguration} from "../storage/GlobalPerpsMarketConfiguration.sol";
 import {PerpsCollateralConfiguration} from "../storage/PerpsCollateralConfiguration.sol";
 
+import {EIP712} from "@synthetixio/core-contracts/contracts/cryptography/EIP712.sol";
+import {ECDSA} from "@synthetixio/core-contracts/contracts/cryptography/ECDSA.sol";
 /**
  * @title Module to manage accounts
  * @dev See IPerpsAccountModule.
  */
-contract PerpsAccountModule is IPerpsAccountModule {
+
+contract PerpsAccountModule is IPerpsAccountModule, EIP712 {
     using SetUtil for SetUtil.UintSet;
     using PerpsAccount for PerpsAccount.Data;
     using Position for Position.Data;
@@ -34,6 +39,9 @@ contract PerpsAccountModule is IPerpsAccountModule {
     using SafeCastI256 for int256;
     using GlobalPerpsMarket for GlobalPerpsMarket.Data;
     using PerpsMarketFactory for PerpsMarketFactory.Data;
+
+    bytes32 private constant FEE_TIER_TYPEHASH =
+        keccak256("FeeTier(uint256 feeTierId,uint128 accountId,uint256 expiry)");
 
     /**
      * @inheritdoc IPerpsAccountModule
@@ -124,6 +132,65 @@ contract PerpsAccountModule is IPerpsAccountModule {
                 PerpsPrice.Tolerance.DEFAULT,
                 false
             );
+    }
+
+    /**
+     * @inheritdoc IPerpsAccountModule
+     */
+    function updateFeeTier(
+        uint128 accountId,
+        uint256 feeTierId,
+        uint256 expiry,
+        bytes memory signature
+    ) external override {
+        FeatureFlag.ensureAccessToFeature(Flags.PERPS_SYSTEM);
+        Account.exists(accountId);
+
+        if (expiry < block.timestamp) revert InvalidSignature();
+
+        GlobalPerpsMarketConfiguration.Data
+            storage globalPerpsMarketConfiguration = GlobalPerpsMarketConfiguration.load();
+
+        if (
+            verify(
+                FeeTierUpdateRequest({feeTierId: feeTierId, accountId: accountId, expiry: expiry}),
+                signature
+            ) != globalPerpsMarketConfiguration.endorsedFeeTierUpdater
+        ) {
+            revert InvalidSignature();
+        }
+
+        PerpsAccount.Data storage account = PerpsAccount.load(accountId);
+
+        emit FeeTierUpdated(accountId, account.feeTierId, feeTierId);
+
+        account.feeTierId = feeTierId;
+    }
+
+    function getTypedDataHash(FeeTierUpdateRequest memory request) public view returns (bytes32) {
+        return
+            _hashTypedDataV4(
+                keccak256(
+                    abi.encode(
+                        FEE_TIER_TYPEHASH,
+                        request.feeTierId,
+                        request.accountId,
+                        request.expiry
+                    )
+                )
+            );
+    }
+
+    function verify(
+        FeeTierUpdateRequest memory request,
+        bytes memory signature
+    ) public view returns (address) {
+        bytes32 digest = getTypedDataHash(request);
+        return ECDSA.recover(digest, signature);
+    }
+
+    function getFeeTierId(uint128 accountId) external view override returns (uint256) {
+        return PerpsAccount.load(accountId).feeTierId;
     }
 
     /**

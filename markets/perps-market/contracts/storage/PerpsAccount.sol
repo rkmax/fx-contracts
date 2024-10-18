@@ -54,6 +54,8 @@ library PerpsAccount {
         // @dev account's debt accrued from previous positions
         // @dev please use updateAccountDebt() to update this value which will update global debt also
         uint256 debt;
+        // @dev fee tier for this account
+        uint256 feeTierId;
     }
 
     error InsufficientCollateralAvailableForWithdraw(
@@ -88,7 +90,7 @@ library PerpsAccount {
     }
 
     /**
-        @notice allows us to update the account id in case it needs to be
+     * @notice allows us to update the account id in case it needs to be
      */
     function create(uint128 id) internal returns (Data storage account) {
         account = load(id);

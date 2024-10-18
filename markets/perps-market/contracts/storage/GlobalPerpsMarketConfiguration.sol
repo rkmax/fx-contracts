@@ -95,6 +95,10 @@ library GlobalPerpsMarketConfiguration {
          * @dev reward distributor implementation. This is used as a base to be cloned to distribute rewards to the liquidator.
          */
         address rewardDistributorImplementation;
+        /**
+         * @dev address of the fee tier updater endorsed by the owner
+         */
+        address endorsedFeeTierUpdater;
     }
 
     function load() internal pure returns (Data storage globalMarketConfig) {

@@ -73,12 +73,14 @@ interface IAsyncOrderModule {
     /**
      * @notice Simulates what the order fee would be for the given market with the specified size.
      * @dev    Note that this does not include the settlement reward fee, which is based on the strategy type used
+     * @param accountId id of the account.
      * @param marketId id of the market.
      * @param sizeDelta size of position.
      * @return orderFees incurred fees.
      * @return fillPrice price at which the order would be filled.
      */
     function computeOrderFees(
+        uint128 accountId,
         uint128 marketId,
         int128 sizeDelta
     ) external view returns (uint256 orderFees, uint256 fillPrice);
@@ -86,6 +88,7 @@ interface IAsyncOrderModule {
     /**
      * @notice Simulates what the order fee would be for the given market with the specified size.
      * @dev    Note that this does not include the settlement reward fee, which is based on the strategy type used
+     * @param accountId id of the account.
      * @param marketId id of the market.
      * @param sizeDelta size of position.
      * @param price price of the market.
@@ -93,6 +96,7 @@ interface IAsyncOrderModule {
      * @return fillPrice price at which the order would be filled.
      */
     function computeOrderFeesWithPrice(
+        uint128 accountId,
         uint128 marketId,
         int128 sizeDelta,
         uint256 price
