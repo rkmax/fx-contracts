@@ -29,12 +29,7 @@ contract GlobalPerpsMarketModule is IGlobalPerpsMarketModule {
     /**
      * @inheritdoc IGlobalPerpsMarketModule
      */
-    function getSupportedCollaterals()
-        external
-        view
-        override
-        returns (uint256[] memory supportedCollaterals)
-    {
+    function getSupportedCollaterals() external view override returns (uint256[] memory supportedCollaterals) {
         GlobalPerpsMarketConfiguration.Data storage store = GlobalPerpsMarketConfiguration.load();
         supportedCollaterals = store.supportedCollateralTypes.values();
     }
@@ -60,10 +55,7 @@ contract GlobalPerpsMarketModule is IGlobalPerpsMarketModule {
         store.maxKeeperScalingRatioD18 = maxKeeperScalingRatioD18;
 
         emit KeeperRewardGuardsSet(
-            minKeeperRewardUsd,
-            minKeeperProfitRatioD18,
-            maxKeeperRewardUsd,
-            maxKeeperScalingRatioD18
+            minKeeperRewardUsd, minKeeperProfitRatioD18, maxKeeperRewardUsd, maxKeeperScalingRatioD18
         );
     }
 
@@ -91,21 +83,14 @@ contract GlobalPerpsMarketModule is IGlobalPerpsMarketModule {
     /**
      * @inheritdoc IGlobalPerpsMarketModule
      */
-    function totalGlobalCollateralValue()
-        external
-        view
-        override
-        returns (uint256 totalCollateralValue)
-    {
+    function totalGlobalCollateralValue() external view override returns (uint256 totalCollateralValue) {
         return GlobalPerpsMarket.load().totalCollateralValue();
     }
 
     /**
      * @inheritdoc IGlobalPerpsMarketModule
      */
-    function globalCollateralValue(
-        uint128 collateralId
-    ) external view override returns (uint256 collateralValue) {
+    function globalCollateralValue(uint128 collateralId) external view override returns (uint256 collateralValue) {
         return GlobalPerpsMarket.load().collateralAmounts[collateralId];
     }
 
@@ -115,9 +100,7 @@ contract GlobalPerpsMarketModule is IGlobalPerpsMarketModule {
     function setFeeCollector(address feeCollector) external override {
         OwnableStorage.onlyOwner();
         if (feeCollector != address(0)) {
-            if (
-                !ERC165Helper.safeSupportsInterface(feeCollector, type(IFeeCollector).interfaceId)
-            ) {
+            if (!ERC165Helper.safeSupportsInterface(feeCollector, type(IFeeCollector).interfaceId)) {
                 revert InvalidFeeCollectorInterface(feeCollector);
             }
         }
@@ -173,9 +156,7 @@ contract GlobalPerpsMarketModule is IGlobalPerpsMarketModule {
     /**
      * @inheritdoc IGlobalPerpsMarketModule
      */
-    function getReferrerShare(
-        address referrer
-    ) external view override returns (uint256 shareRatioD18) {
+    function getReferrerShare(address referrer) external view override returns (uint256 shareRatioD18) {
         return GlobalPerpsMarketConfiguration.load().referrerShare[referrer];
     }
 
@@ -189,10 +170,7 @@ contract GlobalPerpsMarketModule is IGlobalPerpsMarketModule {
     /**
      * @inheritdoc IGlobalPerpsMarketModule
      */
-    function setPerAccountCaps(
-        uint128 maxPositionsPerAccount,
-        uint128 maxCollateralsPerAccount
-    ) external override {
+    function setPerAccountCaps(uint128 maxPositionsPerAccount, uint128 maxCollateralsPerAccount) external override {
         OwnableStorage.onlyOwner();
         GlobalPerpsMarketConfiguration.Data storage store = GlobalPerpsMarketConfiguration.load();
         store.maxPositionsPerAccount = maxPositionsPerAccount;
@@ -228,8 +206,7 @@ contract GlobalPerpsMarketModule is IGlobalPerpsMarketModule {
 
         if (lowUtilizationInterestRateGradient > highUtilizationInterestRateGradient) {
             revert InvalidInterestRateParameters(
-                lowUtilizationInterestRateGradient,
-                highUtilizationInterestRateGradient
+                lowUtilizationInterestRateGradient, highUtilizationInterestRateGradient
             );
         }
 
@@ -238,9 +215,7 @@ contract GlobalPerpsMarketModule is IGlobalPerpsMarketModule {
         store.highUtilizationInterestRateGradient = highUtilizationInterestRateGradient;
 
         emit InterestRateParametersSet(
-            lowUtilizationInterestRateGradient,
-            interestRateGradientBreakpoint,
-            highUtilizationInterestRateGradient
+            lowUtilizationInterestRateGradient, interestRateGradientBreakpoint, highUtilizationInterestRateGradient
         );
     }
 
@@ -267,8 +242,26 @@ contract GlobalPerpsMarketModule is IGlobalPerpsMarketModule {
      * @inheritdoc IGlobalPerpsMarketModule
      */
     function updateInterestRate() external override {
-        (uint128 interestRate, ) = InterestRate.update(PerpsPrice.Tolerance.DEFAULT);
+        (uint128 interestRate,) = InterestRate.update(PerpsPrice.Tolerance.DEFAULT);
 
         emit InterestRateUpdated(PerpsMarketFactory.load().perpsMarketId, interestRate);
+    }
+
+    /**
+     * @inheritdoc IGlobalPerpsMarketModule
+     */
+    function setMinDelegationTime(uint128 marketId, uint32 minDelegationTime) external override {
+        OwnableStorage.onlyOwner();
+        ISynthetixSystem(SYNTHETIX_CORE).setMarketMinDelegateTime(marketId, minDelegationTime);
+    }
+
+    /**
+     * @inheritdoc IGlobalPerpsMarketModule
+     */
+    function setEndorsedFeeTierUpdater(address _endorsedFeeTierUpdater) external override {
+        OwnableStorage.onlyOwner();
+        GlobalPerpsMarketConfiguration.load().endorsedFeeTierUpdater = _endorsedFeeTierUpdater;
+
+        emit EndorsedFeeTierUpdaterSet(_endorsedFeeTierUpdater);
     }
 }

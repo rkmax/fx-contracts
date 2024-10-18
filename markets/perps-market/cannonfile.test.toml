@@ -18,7 +18,7 @@ defaultValue = "polynomial-core:<%= package.version %>-testable"
 depends = []
 
 [setting.spotMarketPackage]
-defaultValue = "synthetix-spot-market:<%= package.version %>-testable"
+defaultValue = "fx-spot-market:<%= package.version %>-testable"
 depends = []
 
 [import.synthetix]
@@ -54,6 +54,9 @@ artifact = "CollateralConfigurationModule"
 [contract.MarketConfigurationModule]
 artifact = "MarketConfigurationModule"
 
+[contract.FeeTierModule]
+artifact = "FeeTierModule"
+
 [contract.FeatureFlagModule]
 artifact = "contracts/modules/FeatureFlagModule.sol:FeatureFlagModule"
 
@@ -86,6 +89,7 @@ contracts = [
     "MarketConfigurationModule",
     "CollateralConfigurationModule",
     "GlobalPerpsMarketModule",
+    "FeeTierModule",
 ]
 
 [invoke.upgrade_proxy]

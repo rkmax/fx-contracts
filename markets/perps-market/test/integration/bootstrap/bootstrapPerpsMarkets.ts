@@ -194,7 +194,6 @@ export const bootstrapPerpsMarkets = (
       const strategyId: ethers.BigNumber = await contracts.PerpsMarket.connect(
         r.owner()
       ).callStatic.addSettlementStrategy(marketId, strategy);
-
       await contracts.PerpsMarket.connect(r.owner()).addSettlementStrategy(marketId, strategy);
 
       perpsMarkets.push({

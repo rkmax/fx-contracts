@@ -169,6 +169,7 @@ describe('Offchain Async Order test - fees', () => {
             orderFees
           );
           [tentativeOrderFees] = await systems().PerpsMarket.computeOrderFeesWithPrice(
+            2,
             ethMarketId,
             sizeDelta,
             tentativePrice
@@ -184,6 +185,7 @@ describe('Offchain Async Order test - fees', () => {
             orderFees
           );
           [tentativeOrderFees] = await systems().PerpsMarket.computeOrderFeesWithPrice(
+            2,
             ethMarketId,
             sizeDelta,
             tentativePrice
@@ -199,6 +201,7 @@ describe('Offchain Async Order test - fees', () => {
             orderFees
           );
           [tentativeOrderFees] = await systems().PerpsMarket.computeOrderFeesWithPrice(
+            2,
             ethMarketId,
             sizeDelta,
             tentativePrice
@@ -207,7 +210,11 @@ describe('Offchain Async Order test - fees', () => {
         });
 
         it('returns proper fees on getOrderFees', async () => {
-          const [orderFees] = await systems().PerpsMarket.computeOrderFees(ethMarketId, sizeDelta);
+          const [orderFees] = await systems().PerpsMarket.computeOrderFees(
+            2,
+            ethMarketId,
+            sizeDelta
+          );
           assertBn.equal(orderFees, feesPaidOnSettle.perpsMarketFee);
         });
 
@@ -230,7 +237,6 @@ describe('Offchain Async Order test - fees', () => {
               systems,
               keeper: keeper(),
               accountId: 2,
-              commitmentTime: startTime,
               offChainPrice: bn(1000),
             });
           });
