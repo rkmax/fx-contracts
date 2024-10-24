@@ -186,27 +186,6 @@ interface IPerpsAccountModule {
     function getFeeTierId(uint128 accountId) external view returns (uint256 feeTierId);
 
     /**
-     * @notice updateFee Tier for an account
-     * @param accountId Id of the account.
-     * @param feeTierId Id of the fee tier.
-     * @param expiry expiration time of the signature.
-     * @param signature signature to verify valid update.
-     */
-    function updateFeeTier(
-        uint128 accountId,
-        uint256 feeTierId,
-        uint256 expiry,
-        bytes memory signature
-    ) external;
-
-    /**
-     * @notice Gets the fee tier id of an account.
-     * @param accountId Id of the account.
-     * @return feeTierId fee tier id of the account.
-     */
-    function getFeeTierId(uint128 accountId) external view returns (uint256 feeTierId);
-
-    /**
      * @notice Allows anyone to pay an account's debt
      * @param accountId Id of the account.
      * @param amount debt amount to pay off
