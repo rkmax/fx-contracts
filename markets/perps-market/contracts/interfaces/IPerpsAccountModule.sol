@@ -30,7 +30,10 @@ interface IPerpsAccountModule {
      * @param sender address of the sender of the size modification. Authorized by account owner.
      */
     event CollateralModified(
-        uint128 indexed accountId, uint128 indexed collateralId, int256 amountDelta, address indexed sender
+        uint128 indexed accountId,
+        uint128 indexed collateralId,
+        int256 amountDelta,
+        address indexed sender
     );
 
     event DebtPaid(uint128 indexed accountId, uint256 amount, address indexed sender);
@@ -67,7 +70,10 @@ interface IPerpsAccountModule {
      * @param collateralId Id of the synth market used as collateral. Synth market id, 0 for snxUSD.
      * @return collateralValue collateral value of the account.
      */
-    function getCollateralAmount(uint128 accountId, uint128 collateralId) external view returns (uint256);
+    function getCollateralAmount(
+        uint128 accountId,
+        uint128 collateralId
+    ) external view returns (uint256);
 
     /**
      * @notice Gets the account's collaterals ids
@@ -104,7 +110,10 @@ interface IPerpsAccountModule {
      * @return positionSize size of the position.
      * @return owedInterest interest owed due to open position.
      */
-    function getOpenPosition(uint128 accountId, uint128 marketId)
+    function getOpenPosition(
+        uint128 accountId,
+        uint128 marketId
+    )
         external
         view
         returns (int256 totalPnl, int256 accruedFunding, int128 positionSize, uint256 owedInterest);
@@ -115,7 +124,10 @@ interface IPerpsAccountModule {
      * @param accountId Id of the account.
      * @param marketId Id of the position market.
      */
-    function getOpenPositionSize(uint128 accountId, uint128 marketId) external view returns (int128 positionSize);
+    function getOpenPositionSize(
+        uint128 accountId,
+        uint128 marketId
+    ) external view returns (int128 positionSize);
 
     /**
      * @notice Gets the available margin of an account. It can be negative due to pnl.
@@ -129,7 +141,9 @@ interface IPerpsAccountModule {
      * @param accountId Id of the account.
      * @return withdrawableMargin available margin to withdraw.
      */
-    function getWithdrawableMargin(uint128 accountId) external view returns (int256 withdrawableMargin);
+    function getWithdrawableMargin(
+        uint128 accountId
+    ) external view returns (int256 withdrawableMargin);
 
     /**
      * @notice Gets the initial/maintenance margins across all positions that an account has open.
@@ -139,10 +153,16 @@ interface IPerpsAccountModule {
      * @return requiredMaintenanceMargin maintenance margin req (used to determine liquidation threshold).
      * @return maxLiquidationReward max liquidation reward the keeper would receive if account was fully liquidated. Note here that the accumulated rewards are checked against the global max/min configured liquidation rewards.
      */
-    function getRequiredMargins(uint128 accountId)
+    function getRequiredMargins(
+        uint128 accountId
+    )
         external
         view
-        returns (uint256 requiredInitialMargin, uint256 requiredMaintenanceMargin, uint256 maxLiquidationReward);
+        returns (
+            uint256 requiredInitialMargin,
+            uint256 requiredMaintenanceMargin,
+            uint256 maxLiquidationReward
+        );
 
     /**
      * @notice updateFee Tier for an account
@@ -151,7 +171,33 @@ interface IPerpsAccountModule {
      * @param expiry expiration time of the signature.
      * @param signature signature to verify valid update.
      */
-    function updateFeeTier(uint128 accountId, uint256 feeTierId, uint256 expiry, bytes memory signature) external;
+    function updateFeeTier(
+        uint128 accountId,
+        uint256 feeTierId,
+        uint256 expiry,
+        bytes memory signature
+    ) external;
+
+    /**
+     * @notice Gets the fee tier id of an account.
+     * @param accountId Id of the account.
+     * @return feeTierId fee tier id of the account.
+     */
+    function getFeeTierId(uint128 accountId) external view returns (uint256 feeTierId);
+
+    /**
+     * @notice updateFee Tier for an account
+     * @param accountId Id of the account.
+     * @param feeTierId Id of the fee tier.
+     * @param expiry expiration time of the signature.
+     * @param signature signature to verify valid update.
+     */
+    function updateFeeTier(
+        uint128 accountId,
+        uint256 feeTierId,
+        uint256 expiry,
+        bytes memory signature
+    ) external;
 
     /**
      * @notice Gets the fee tier id of an account.
