@@ -17,7 +17,7 @@ defaultValue = "polynomial"
 
 [import.synthetix]
 source = "<%= settings.polynomialCore %>"
-preset = "<%= settings.polynomialCorePreset %>"
+preset = "<%= settings.polynomialPreset %>"
 
 [contract.SpotMarketFactoryModule]
 artifact = "SpotMarketFactoryModule"
