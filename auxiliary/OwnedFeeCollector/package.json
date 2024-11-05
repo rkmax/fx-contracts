@@ -16,7 +16,7 @@
     "test": "CANNON_REGISTRY_PRIORITY=local hardhat test",
     "coverage": "hardhat coverage --network hardhat",
     "clean": "hardhat clean",
-    "build": "yarn build:contracts",
+    "build": "echo 'No build step for owned fee collector'",
     "build:contracts": "hardhat compile --force && CANNON_REGISTRY_PRIORITY=local hardhat cannon:build",
     "build-testable": "CANNON_REGISTRY_PRIORITY=local hardhat cannon:build cannonfile.test.toml",
     "compile-contracts": "hardhat compile",

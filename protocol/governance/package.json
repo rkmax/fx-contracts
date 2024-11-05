@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "clean": "hardhat clean && rm -rf contracts/generated",
-    "build": "yarn build:contracts",
+    "build": "echo 'No build step for governance'",
     "build:contracts": "hardhat compile --force && yarn storage:dump && CANNON_REGISTRY_PRIORITY=local hardhat cannon:build",
     "storage:dump": "hardhat storage:dump --output storage.new.dump.json",
     "storage:verify": " hardhat storage:verify",

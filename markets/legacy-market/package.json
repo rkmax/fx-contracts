@@ -15,7 +15,7 @@
   "scripts": {
     "build:contracts": "hardhat compile --force && yarn storage:dump && CANNON_REGISTRY_PRIORITY=local hardhat cannon:build",
     "storage:dump": "hardhat storage:dump --output storage.new.dump.json",
-    "build": "yarn build:contracts",
+    "build": "echo 'No build step for legacy market'",
     "storage:verify": " hardhat storage:verify",
     "test": "hardhat test",
     "coverage": "hardhat coverage --network hardhat",

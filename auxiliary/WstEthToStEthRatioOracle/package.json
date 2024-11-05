@@ -16,7 +16,7 @@
     "test": "CANNON_REGISTRY_PRIORITY=local hardhat test",
     "coverage": "hardhat coverage --network hardhat",
     "clean": "hardhat clean",
-    "build": "yarn build:contracts",
+    "build": "echo 'No build step for wsteth to steth ratio oracle'",
     "build:contracts": "hardhat compile --force && yarn storage:dump && CANNON_REGISTRY_PRIORITY=local hardhat cannon:build",
     "storage:dump": "hardhat storage:dump --output storage.new.dump.json",
     "storage:verify": " hardhat storage:verify",
