@@ -24,4 +24,8 @@ contract AccountTokenModule is IAccountTokenModule, NftModule {
     ) internal virtual override {
         IAccountModule(OwnableStorage.getOwner()).notifyAccountTransfer(to, tokenId.to128());
     }
+
+    function isPolynomial() public pure returns (bool) {
+        return true;
+    }
 }

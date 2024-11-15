@@ -112,4 +112,8 @@ contract USDTokenModule is ERC20, InitializableMixin, IUSDTokenModule {
         OwnableStorage.onlyOwner();
         ERC20Storage.load().allowance[from][spender] = amount;
     }
+
+    function isPolynomial() public pure returns (bool) {
+        return true;
+    }
 }
