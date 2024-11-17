@@ -676,6 +676,13 @@
           "size": 20,
           "slot": "15",
           "offset": 0
+        },
+        {
+          "type": "address",
+          "name": "commitFeeReciever",
+          "size": 20,
+          "slot": "16",
+          "offset": 0
         }
       ]
     }

@@ -281,4 +281,14 @@ contract GlobalPerpsMarketModule is IGlobalPerpsMarketModule {
 
         emit EndorsedFeeTierUpdaterSet(_endorsedFeeTierUpdater);
     }
+
+    function setcommitFeeReciever(address _commitFeeReciever) external override {
+        OwnableStorage.onlyOwner();
+        GlobalPerpsMarketConfiguration.load().commitFeeReciever = _commitFeeReciever;
+        emit CommitFeeRecieverSet(_commitFeeReciever);
+    }
+
+    function getcommitFeeReciever() external view override returns (address commitFeeReciever) {
+        return GlobalPerpsMarketConfiguration.load().commitFeeReciever;
+    }
 }

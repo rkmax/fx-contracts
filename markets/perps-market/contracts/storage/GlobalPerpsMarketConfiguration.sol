@@ -99,6 +99,10 @@ library GlobalPerpsMarketConfiguration {
          * @dev address of the fee tier updater endorsed by the owner
          */
         address endorsedFeeTierUpdater;
+        /**
+         * @dev Address that collects fees from order committers.
+         */
+        address commitFeeReciever;
     }
 
     function load() internal pure returns (Data storage globalMarketConfig) {

@@ -71,6 +71,12 @@ interface IGlobalPerpsMarketModule {
     event EndorsedFeeTierUpdaterSet(address endorsedFeeTierUpdater);
 
     /**
+     * @notice Gets fired when the fee collector is updated.
+     * @param commitFeeReciever the address of the fee collector
+     */
+    event CommitFeeRecieverSet(address commitFeeReciever);
+
+    /**
      * @notice Thrown when the fee collector does not implement the IFeeCollector interface
      */
     error InvalidFeeCollectorInterface(address invalidFeeCollector);
@@ -248,4 +254,16 @@ interface IGlobalPerpsMarketModule {
      * @param endorsedFeeTierUpdater the address of the fee tier EOA
      */
     function setEndorsedFeeTierUpdater(address endorsedFeeTierUpdater) external;
+
+    /**
+     * @notice Set the address that collects fees from order committers
+     * @param commitFeeReciever the address of the fee collector
+     */
+    function setcommitFeeReciever(address commitFeeReciever) external;
+
+    /**
+     * @notice Get the address that collects fees from order committers
+     * @return commitFeeReciever the address of the fee collector
+     */
+    function getcommitFeeReciever() external view returns (address);
 }
