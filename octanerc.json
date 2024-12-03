@@ -1,0 +1,13 @@
+{
+    "pathsToAnalyze": [
+        "**/auxiliary/**/src/**/*.sol",
+        "**/auxiliary/**/contracts/**/*.sol",
+        "**/markets/**/*.sol",
+        "**/utils/core-utils/**/*.sol",
+        "**/utils/core-modules/**/*.sol",
+        "**/protocol/**/*.sol",
+        "**/protocol/synthetix/contracts/**/*.sol",
+        "**/protocol/oracle-manager/contracts/**/*.sol",
+        "**/protocol/governance/contracts/**/*.sol"
+    ]
+}
